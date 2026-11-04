@@ -57,8 +57,8 @@ $("#go").onclick=()=>{
  openDialog("dlg")};
 $("#cls").onclick=()=>closeDialog("dlg");
 $("#signin").onclick=()=>openDialog("signinDlg");
-$("#signinForm").onsubmit=e=>{e.preventDefault();const email=new FormData(e.target).get("email");localStorage.setItem("lokokathaUser",email);closeDialog("signinDlg");$("#signin").textContent="Signed in";toast("Signed in for this browser session.")};
-const signedInUser=localStorage.getItem("lokokathaUser");if(signedInUser)$("#signin").textContent="Signed in";
+$("#signinForm").onsubmit=e=>{e.preventDefault();const email=new FormData(e.target).get("email");localStorage.setItem("lokosongeetUser",email);closeDialog("signinDlg");$("#signin").textContent="Signed in";toast("Signed in for this browser session.")};
+const signedInUser=localStorage.getItem("lokosongeetUser");if(signedInUser)$("#signin").textContent="Signed in";
 $("#contributeBtn").onclick=()=>openDialog("contributeDlg");
 $("#contributeForm").onsubmit=e=>{e.preventDefault();const title=new FormData(e.target).get("title");closeDialog("contributeDlg");e.target.reset();toast(`“${title}” was added to your local submissions.`)};
 const RC={"Delta":"#4f8a8b","North Bengal":"#7a8f3a","Nadia–Kushtia":"#e0a100","Malda":"#b5381f","Purulia":"#8a5a2b"};
@@ -83,8 +83,8 @@ $("#snd").onclick=()=>{snd=!snd;$("#snd").textContent=snd?"Sound on":"Sound off"
 const day=Math.floor(Date.now()/864e5),pick=D[day%D.length];
 $("#dd").textContent=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" · Sample entry";
 $("#dbody").innerHTML=`<h3>${pick.t}</h3><p class="meta" style="color:inherit;opacity:.8">${pick.k} · ${pick.r}</p><p>${pick.x}</p><p><b>Did you know?</b> ${pick.f}</p><button class="btn" id="bookmark">Bookmark</button> <button class="btn" id="share">Share</button>`;
-$("#bookmark").onclick=()=>{const saved=localStorage.getItem("lokokathaBookmark")==pick.t;if(saved){localStorage.removeItem("lokokathaBookmark");$("#bookmark").textContent="Bookmark";toast("Bookmark removed")}else{localStorage.setItem("lokokathaBookmark",pick.t);$("#bookmark").textContent="Bookmarked";toast("Saved in this browser")}};
-if(localStorage.getItem("lokokathaBookmark")==pick.t)$("#bookmark").textContent="Bookmarked";
+$("#bookmark").onclick=()=>{const saved=localStorage.getItem("lokosongeetBookmark")==pick.t;if(saved){localStorage.removeItem("lokosongeetBookmark");$("#bookmark").textContent="Bookmark";toast("Bookmark removed")}else{localStorage.setItem("lokosongeetBookmark",pick.t);$("#bookmark").textContent="Bookmarked";toast("Saved in this browser")}};
+if(localStorage.getItem("lokosongeetBookmark")==pick.t)$("#bookmark").textContent="Bookmarked";
 $("#share").onclick=async()=>{try{await navigator.clipboard.writeText(pick.t+": "+pick.x);toast("Copied to clipboard")}catch(e){toast("Copy is not available in this browser")}};
 $("#askform").onsubmit=e=>{e.preventDefault();const q=$("#ask").value.toLowerCase();let answer="Try asking about a song, region, river, festival, or instrument.";if(q.includes("river"))answer="Bhatiali and Jari are connected with the Delta. Bhatiali is sung by boatmen drifting downstream, while Jari carries lament and historical tales.";else if(q.includes("festival")||q.includes("durga"))answer="Agomoni is sung before Durga Puja and tells of the goddess’s homecoming.";else if(q.includes("instrument"))answer="The archive lists ektara, dotara, bansuri, dhol, madal, and harmonium among the sample instruments.";else if(q.includes("region"))answer="The sample archive covers Delta, North Bengal, Nadia–Kushtia, Malda, and Purulia.";$("#answer").textContent=answer};
 $("#stats").innerHTML=[[S.length,"Sample songs"],[3,"Sample documents"],[0,"Contributors"],[new Set(S.map(s=>s.reg)).size,"Regions"]].map(a=>`<div><b>${a[0]}</b>${a[1]}</div>`).join("");

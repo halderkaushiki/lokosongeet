@@ -1,4 +1,4 @@
-# Lokokatha: Digital Folklore Archive (phase 1 prototype)
+# Lokosongeet: Digital Folklore Archive (phase 1 prototype)
 
 Static front end: `index.html`, `style.css`, `app.js`. No build step. Open `index.html` in a browser, or run `npx serve .` / the VS Code Live Server extension.
 
