@@ -3,6 +3,7 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f160a;--surf:#2a1e0e;--ink:#f6ead0;--mute:#cdb98f;--green:#f3c24a;--sage:#e0a100;--sagebg:#3a2b1280;--clay:#ef8a70;--brown:#d9b36b;--line:#4a3718;--on:#1f160a}}
 :root[data-theme="dark"]{--bg:#1f160a;--surf:#2a1e0e;--ink:#f6ead0;--mute:#cdb98f;--green:#f3c24a;--sage:#e0a100;--sagebg:#3a2b1280;--clay:#ef8a70;--brown:#d9b36b;--line:#4a3718;--on:#1f160a}
 html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+html,body{overflow-x:hidden}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 'Source Sans 3','Noto Serif Bengali',system-ui,sans-serif}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
@@ -129,13 +130,16 @@ footer{border-top:1px solid var(--line);padding:28px 0 100px;color:var(--mute);f
 
 /* Refined launch UI */
 body{background:radial-gradient(circle at 8% 2%,#fffdf3 0,transparent 28rem),var(--bg)}
+body.home-page{background:linear-gradient(112deg,var(--bg) 0%,var(--bg) 52%,var(--sagebg) 52%,var(--sagebg) 100%)}
+body.home-page::after{opacity:.045}
 header{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px)}
 .bar{min-height:70px;gap:12px}
 .logo{font-size:1.45rem;letter-spacing:-.02em}
 nav{justify-content:center;gap:2px}
 nav a{font-size:.86rem;padding:7px 9px}
 .tools{margin-left:auto}
-.hero-new{padding:64px 0 34px;max-width:980px}
+.hero-new{position:relative;padding:70px 0 38px;max-width:980px}
+.hero-new::after{content:"";position:absolute;right:-110px;top:48px;width:210px;height:210px;border:1px solid var(--clay);border-radius:50%;opacity:.18;box-shadow:0 0 0 16px transparent,0 0 0 17px var(--clay);pointer-events:none}
 .hero-new>div:first-child{max-width:880px}
 .hero-new h1{max-width:900px;font-size:clamp(2.65rem,5.55vw,4.7rem);line-height:1.04}
 .hero-place{margin-top:16px;padding-left:17px;border-left:3px solid var(--clay);font-size:clamp(1.25rem,2.2vw,2rem);letter-spacing:.015em}
@@ -148,14 +152,20 @@ nav a{font-size:.86rem;padding:7px 9px}
 .hero-note{margin-top:22px}
 .hero-new>div:nth-child(2){max-width:440px;margin-top:8px}
 .hero-new .art{max-width:370px}
-.features{margin-top:0;padding:34px 0 54px;border-top:1px solid var(--line)}
+.features{position:relative;margin-top:0;padding:40px 0 58px;border-top:1px solid var(--line)}
+.features::before{content:"";position:absolute;left:50%;top:-1px;width:90px;height:1px;background:var(--clay);transform:translateX(-50%)}
 .features .head{padding-bottom:4px}
 .features .eyebrow{margin-bottom:10px!important}
 .features h2{font-size:clamp(1.8rem,3vw,2.45rem);letter-spacing:-.025em}
 .feature-grid{grid-template-columns:repeat(2,1fr);gap:16px}
-.feature-card{min-height:210px;padding:24px;border-radius:24px}
+.feature-card{position:relative;min-height:210px;padding:25px;border-radius:24px;overflow:hidden}
+.feature-card:nth-child(2){background:color-mix(in srgb,var(--surf) 82%,var(--sagebg))}
+.feature-card:nth-child(3){background:color-mix(in srgb,var(--surf) 86%,var(--clay) 14%)}
+.feature-card::after{content:"";position:absolute;right:-30px;bottom:-38px;width:110px;height:110px;border:1px solid var(--line);border-radius:50%;opacity:.7}
+.feature-num{position:absolute;right:22px;top:22px;color:var(--clay);font:600 .75rem 'Source Sans 3',sans-serif;letter-spacing:.1em}
 .feature-card h3{font-size:1.22rem}
-.feature-card p{line-height:1.55}
+.feature-card p{line-height:1.55;max-width:30ch}
+.feature-link b{display:inline-block;margin-left:4px;font-size:1.1rem;transition:transform .2s}.feature-card:hover .feature-link b{transform:translate(3px,-3px)}
 .home-page .orn{margin-top:0}
 @media(max-width:920px){nav{justify-content:flex-start}.tools{flex-shrink:0}}
 @media(max-width:700px){.bar{flex-wrap:wrap;padding-top:10px;padding-bottom:8px}.tools{margin-left:auto}.hero-new{padding-top:44px}.hero-new .search{border:0;padding:0;background:none;box-shadow:none}.hero-new .search input{border:1px solid var(--line);background:var(--surf)}}
