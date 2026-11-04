@@ -24,14 +24,14 @@ function render(){
  const q=qs.toLowerCase();
  const L=S.filter(s=>(cat=="All"||s.cat==cat)&&(!reg||s.reg==reg)&&(!q||Object.values(s).join(" ").toLowerCase().includes(q)));
  $("#count").textContent=L.length+" of "+S.length+" sample songs"+(reg?" in "+reg:"");
- $("#songs").innerHTML=L.length?L.map(s=>`<article class="card"><span><span class="tag">${s.cat}</span><span class="tag sample">Sample</span></span><h3>${s.t}</h3><span class="bn">${s.bn}</span><p class="meta">${s.reg} · ${s.lang}</p><p style="margin:0">${s.ctx}. Themes: ${s.th.toLowerCase()}.</p><div class="acts"><button data-c="${s.id}" aria-pressed="${cmp.includes(s.id)}">${cmp.includes(s.id)?"Added":"Add to compare"}</button><button data-f="${s.id}" aria-pressed="${fav.has(s.id)}">${fav.has(s.id)?"Saved":"Save"}</button></div></article>`).join(""):`<p>No songs match. <button data-reset>Reset filters</button></p>`;
+ $("#songs").innerHTML=L.length?L.map(s=>`<article class="card song-card" data-song="${s.id}" tabindex="0" role="button" aria-label="Open details for ${s.t}"><span><span class="tag">${s.cat}</span><span class="tag sample">Sample</span></span><h3>${s.t}</h3><span class="bn">${s.bn}</span><p class="meta">${s.reg} · ${s.lang}</p><p style="margin:0">${s.ctx}. Themes: ${s.th.toLowerCase()}.</p><div class="acts"><button data-c="${s.id}" aria-pressed="${cmp.includes(s.id)}">${cmp.includes(s.id)?"Added":"Add to compare"}</button><button data-f="${s.id}" aria-pressed="${fav.has(s.id)}">${fav.has(s.id)?"Saved":"Save"}</button></div></article>`).join(""):`<p>No songs match. <button data-reset>Reset filters</button></p>`;
  $("#cats").innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c==cat}" data-cat="${c}">${c}</button>`).join("")+(reg?`<button class="chip" data-clear>Clear place: ${reg}</button>`:"");
  $("#tray").classList.toggle("on",cmp.length>0);
  $("#tn").textContent=cmp.length+" of 5 selected";
  $("#tc").innerHTML=cmp.map(i=>`<button class="chip" data-c="${i}" aria-label="Remove ${S.find(s=>s.id==i).t}">${S.find(s=>s.id==i).t} ×</button>`).join("");
 }
 document.addEventListener("click",e=>{
- const b=e.target.closest("[data-c],[data-f],[data-cat],[data-clear],[data-soon],[data-compare],[data-q],[data-reset],[data-reg],[data-doc],[data-close-dialog]");if(!b)return;
+ const b=e.target.closest("[data-c],[data-f],[data-cat],[data-clear],[data-soon],[data-compare],[data-q],[data-reset],[data-reg],[data-doc],[data-close-dialog],[data-song]");if(!b)return;
  const d=b.dataset;
  if(d.c){const i=+d.c;if(cmp.includes(i))cmp=cmp.filter(x=>x!=i);else if(cmp.length>=5)return toast("You can compare up to five songs.");else cmp.push(i);render()}
  else if(d.f){const i=+d.f;fav.has(i)?fav.delete(i):fav.add(i);toast(fav.has(i)?"Saved for this session. Accounts will keep favourites.":"Removed");render()}
@@ -40,6 +40,7 @@ document.addEventListener("click",e=>{
  else if(d.q!==undefined){qs=d.q;$("#q").value=qs;render();$("#archive").scrollIntoView()}
  else if("reset" in d){cat="All";reg="";qs="";$("#q").value="";render()}
  else if(d.reg){reg=d.reg;render();$("#archive").scrollIntoView()}
+ else if(d.song){const song=S.find(s=>s.id==+d.song);if(!song)return;$("#songTitle").textContent=song.t;$("#songBody").innerHTML=`<p class="bn">${song.bn}</p><p>${song.ctx}.</p><dl><dt>Region</dt><dd>${song.reg}</dd><dt>Language</dt><dd>${song.lang}</dd><dt>Themes</dt><dd>${song.th}</dd><dt>Instruments</dt><dd>${song.ins}</dd></dl><p class="meta">This is a sample archive record for the Lokosongeet prototype.</p>`;openDialog("songDlg")}
  else if(d.doc){const docs={"Fieldwork notes on boatmen’s songs":"Notes from a Delta field visit, including performance context and boatmen’s descriptions of the river.","Scanned manuscript, wedding songs":"A sample OCR preview of wedding-song verses collected in Nadia.","Translation notes on Gambhira verses":"Working translation notes for Gambhira verses from Malda."};$("#docTitle").textContent=d.doc;$("#docBody").textContent=docs[d.doc];openDialog("docDlg")}
  else if(d.closeDialog)closeDialog(d.closeDialog)
  else if(d.soon)toast(d.soon);
@@ -61,6 +62,7 @@ $("#signinForm").onsubmit=e=>{e.preventDefault();const email=new FormData(e.targ
 const signedInUser=localStorage.getItem("lokosongeetUser");if(signedInUser)$("#signin").textContent="Signed in";
 $("#contributeBtn").onclick=()=>openDialog("contributeDlg");
 $("#contributeForm").onsubmit=e=>{e.preventDefault();const title=new FormData(e.target).get("title");closeDialog("contributeDlg");e.target.reset();toast(`“${title}” was added to your local submissions.`)};
+$("#songs").addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.closest("[data-song]")&&!e.target.closest("button")){e.preventDefault();e.target.closest("[data-song]").click()}});
 const RC={"Delta":"#4f8a8b","North Bengal":"#7a8f3a","Nadia–Kushtia":"#e0a100","Malda":"#b5381f","Purulia":"#8a5a2b"};
 $("#regs").innerHTML=Object.keys(RC).map(r=>`<button class="reg" style="--c:${RC[r]}" data-reg="${r}"><i></i><b>${r}</b><span>${S.filter(s=>s.reg==r).length} sample songs</span></button>`).join("");
 const links=$$("nav a");
