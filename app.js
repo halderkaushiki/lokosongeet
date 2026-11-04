@@ -12,8 +12,8 @@ const D=[
 {k:"Instrument",t:"Dotara",r:"Bengal",x:"A long-necked string instrument that accompanies many folk styles.",f:"Its name means two strings, though many have four."},
 {k:"Motif",t:"The river as a road",r:"Delta",x:"Rivers appear as travel, separation and the passing of time.",f:"The same river can mean different things in different songs."},
 {k:"Tradition",t:"Agomoni",r:"Bengal",x:"Songs about the goddess’s annual visit, told through a mother waiting for her daughter.",f:"They are sung in the weeks before Durga Puja."}];
-const T={en:{h1:"Preserving Voices. Connecting Cultures. Exploring Folklore.",sub:"A living archive of folk songs and oral traditions from West Bengal and Bangladesh, open to researchers, students, musicians and anyone curious.",b1:"Explore Archive",b2:"Compare Songs",b3:"Contribute",n1:"Explore Archive"},
-bn:{h1:"কণ্ঠ সংরক্ষণ। সংস্কৃতির সংযোগ। লোকসংস্কৃতির সন্ধান।",sub:"পশ্চিমবঙ্গ ও বাংলাদেশের লোকগান ও মৌখিক ঐতিহ্যের একটি জীবন্ত সংগ্রহশালা।",b1:"সংগ্রহ দেখুন",b2:"গান তুলনা করুন",b3:"অবদান রাখুন",n1:"সংগ্রহ দেখুন"}};
+const T={en:{h1:"Folk and Folk-Related Oral & Performance Traditions of West Bengal and Bangladesh",sub:"A living archive of folk songs and oral traditions from West Bengal and Bangladesh, open to researchers, students, musicians and anyone curious.",b1:"Explore Archive",b2:"Compare Songs",b3:"Contribute",n1:"Explore Archive"},
+bn:{h1:"পশ্চিমবঙ্গ ও বাংলাদেশের লোক এবং লোক-সম্পর্কিত মৌখিক ও পরিবেশন ঐতিহ্য",sub:"পশ্চিমবঙ্গ ও বাংলাদেশের লোকগান ও মৌখিক ঐতিহ্যের একটি জীবন্ত সংগ্রহশালা।",b1:"সংগ্রহ দেখুন",b2:"গান তুলনা করুন",b3:"অবদান রাখুন",n1:"সংগ্রহ দেখুন"}};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 function openDialog(id){const dialog=$("#"+id);if(!dialog)return;if(typeof dialog.showModal=="function")dialog.showModal();else dialog.setAttribute("open","")}
 function closeDialog(id){const dialog=$("#"+id);if(!dialog)return;if(typeof dialog.close=="function")dialog.close();else dialog.removeAttribute("open")}
