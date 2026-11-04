@@ -18,7 +18,7 @@
 <div class="tools">
 <button class="ghost" id="lang" aria-label="Switch language">বাংলা</button>
 <button class="ghost" id="theme" aria-label="Toggle dark mode">Dark</button>
-<button class="primary" data-soon="Accounts arrive with the backend phase.">Sign in</button>
+<button class="primary" id="signin">Sign in</button>
 </div></div></header>
 
 <main id="top" class="wrap">
@@ -79,21 +79,24 @@
 <div class="orn" aria-hidden="true"></div>
 <section id="docs"><div class="head"><h2>Recently added documents</h2></div>
 <ul class="docs">
-<li><span><b>Fieldwork notes on boatmen’s songs</b><br><span class="meta">Sample document · Delta region · TXT</span></span><span><span class="tag">Pending Verification</span> <button data-soon="Document reader is planned for the reading phase.">Open</button></span></li>
-<li><span><b>Scanned manuscript, wedding songs</b><br><span class="meta">Sample document · Nadia · PDF with OCR</span></span><span><span class="tag">AI Review Completed</span> <button data-soon="Document reader is planned for the reading phase.">Open</button></span></li>
-<li><span><b>Translation notes on Gambhira verses</b><br><span class="meta">Sample document · Malda · DOCX</span></span><span><span class="tag">Needs Further Review</span> <button data-soon="Document reader is planned for the reading phase.">Open</button></span></li>
+<li><span><b>Fieldwork notes on boatmen’s songs</b><br><span class="meta">Sample document · Delta region · TXT</span></span><span><span class="tag">Pending Verification</span> <button data-doc="Fieldwork notes on boatmen’s songs">Open</button></span></li>
+<li><span><b>Scanned manuscript, wedding songs</b><br><span class="meta">Sample document · Nadia · PDF with OCR</span></span><span><span class="tag">AI Review Completed</span> <button data-doc="Scanned manuscript, wedding songs">Open</button></span></li>
+<li><span><b>Translation notes on Gambhira verses</b><br><span class="meta">Sample document · Malda · DOCX</span></span><span><span class="tag">Needs Further Review</span> <button data-doc="Translation notes on Gambhira verses">Open</button></span></li>
 </ul></section>
 
-<section id="assistant"><div class="card"><h2>AI Research Assistant</h2><p>Ask about motifs, festivals or how two traditions differ. Answers will cite archive documents and separate verified facts from interpretation.</p><p class="meta">Not connected yet. It needs a server-side AI key and the search index, so no placeholder answers are shown.</p></div></section>
+<section id="assistant"><div class="card"><h2>AI Research Assistant</h2><p>Ask about motifs, festivals or how two traditions differ. This local demo answers from the sample archive.</p><form class="search" id="askform"><input id="ask" type="search" placeholder="Try: Which songs are connected to rivers?" aria-label="Ask the research assistant"><button class="primary" type="submit">Ask</button></form><p id="answer" class="meta" aria-live="polite">Ask a question to begin.</p></div></section>
 
 <section id="community"><div class="head"><h2>Community contributions</h2><p class="meta">Sample contributions</p></div><div class="contrib"><div><b>Handwritten notebook transcribed</b><p>A contributor typed up a Jari notebook and noted two dialect words for review.</p><p class="meta">Delta region · Awaiting human review</p></div><div><b>Correction suggested</b><p>A reader proposed a clearer translation for a Gambhira line, with a source.</p><p class="meta">Malda · Open for discussion</p></div><div><b>New recording added</b><p>A field recording of Jhumur singers was uploaded with performer details.</p><p class="meta">Purulia · AI review completed</p></div></div></section>
-<section id="contribute"><div class="cta"><svg class="wm" viewBox="0 0 100 100" aria-hidden="true"><use href="#mot"/></svg><h2>Share a song, a document or a memory</h2><p>Upload lyrics, recordings, scanned manuscripts or fieldwork notes. Every submission is checked by AI-assisted review and then by a human scholar before it is marked Verified.</p><button class="primary" data-soon="Uploads arrive with the backend phase.">Start a contribution</button></div></section>
+<section id="contribute"><div class="cta"><svg class="wm" viewBox="0 0 100 100" aria-hidden="true"><use href="#mot"/></svg><h2>Share a song, a document or a memory</h2><p>Upload lyrics, recordings, scanned manuscripts or fieldwork notes. Every submission is checked by AI-assisted review and then by a human scholar before it is marked Verified.</p><button class="primary" id="contributeBtn">Start a contribution</button></div></section>
 </main>
 
 <footer id="about"><div class="wrap"><b>Lokokatha</b> is a prototype. All songs, documents and figures on this page are sample content for demonstration and are not verified archival material.</div></footer>
 
 <div id="tray"><div class="in"><b id="tn"></b><div class="chips" id="tc"></div><button class="primary" id="go">Compare</button><button id="clr">Clear</button></div></div>
 <dialog id="dlg"><h2>Comparison</h2><div class="scroll"><table id="tbl"></table></div><p class="meta">This table shows archive metadata only. AI analysis, evidence labels and PDF/DOCX export need the backend and a server-side AI key.</p><button id="cls">Close</button></dialog>
+<dialog id="signinDlg"><h2>Sign in</h2><p class="meta">This prototype stores your session only in this browser.</p><form id="signinForm"><label>Email<br><input name="email" type="email" required placeholder="you@example.com"></label><label>Password<br><input name="password" type="password" required minlength="4" placeholder="At least 4 characters"></label><div class="acts"><button class="primary" type="submit">Continue</button><button type="button" data-close-dialog="signinDlg">Cancel</button></div></form></dialog>
+<dialog id="docDlg"><h2 id="docTitle"></h2><p id="docBody"></p><p class="meta">Sample document preview · archival verification is not complete.</p><button type="button" data-close-dialog="docDlg">Close</button></dialog>
+<dialog id="contributeDlg"><h2>Start a contribution</h2><p class="meta">Add a sample submission to this local session.</p><form id="contributeForm"><label>Title<br><input name="title" required placeholder="Name of the song or memory"></label><label>Notes<br><textarea name="notes" rows="4" required placeholder="Tell us about it"></textarea></label><label>Attach a file (optional)<br><input name="file" type="file"></label><div class="acts"><button class="primary" type="submit">Submit contribution</button><button type="button" data-close-dialog="contributeDlg">Cancel</button></div></form></dialog>
 <div id="toast" role="status"></div>
 
 <script src="app.js"></script>
