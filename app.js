@@ -15,6 +15,8 @@ const D=[
 const T={en:{h1:"Preserving Voices. Connecting Cultures. Exploring Folklore.",sub:"A living archive of folk songs and oral traditions from West Bengal and Bangladesh, open to researchers, students, musicians and anyone curious.",b1:"Explore Archive",b2:"Compare Songs",b3:"Contribute",n1:"Explore Archive"},
 bn:{h1:"কণ্ঠ সংরক্ষণ। সংস্কৃতির সংযোগ। লোকসংস্কৃতির সন্ধান।",sub:"পশ্চিমবঙ্গ ও বাংলাদেশের লোকগান ও মৌখিক ঐতিহ্যের একটি জীবন্ত সংগ্রহশালা।",b1:"সংগ্রহ দেখুন",b2:"গান তুলনা করুন",b3:"অবদান রাখুন",n1:"সংগ্রহ দেখুন"}};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function openDialog(id){const dialog=$("#"+id);if(!dialog)return;if(typeof dialog.showModal=="function")dialog.showModal();else dialog.setAttribute("open","")}
+function closeDialog(id){const dialog=$("#"+id);if(!dialog)return;if(typeof dialog.close=="function")dialog.close();else dialog.removeAttribute("open")}
 let cat="All",reg="",qs="",cmp=[],fav=new Set();
 const cats=["All",...new Set(S.map(s=>s.cat))];
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2400)}
@@ -38,8 +40,8 @@ document.addEventListener("click",e=>{
  else if(d.q!==undefined){qs=d.q;$("#q").value=qs;render();$("#archive").scrollIntoView()}
  else if("reset" in d){cat="All";reg="";qs="";$("#q").value="";render()}
  else if(d.reg){reg=d.reg;render();$("#archive").scrollIntoView()}
- else if(d.doc){const docs={"Fieldwork notes on boatmen’s songs":"Notes from a Delta field visit, including performance context and boatmen’s descriptions of the river.","Scanned manuscript, wedding songs":"A sample OCR preview of wedding-song verses collected in Nadia.","Translation notes on Gambhira verses":"Working translation notes for Gambhira verses from Malda."};$("#docTitle").textContent=d.doc;$("#docBody").textContent=docs[d.doc];$("#docDlg").showModal()}
- else if(d.closeDialog)$( "#" + d.closeDialog).close()
+ else if(d.doc){const docs={"Fieldwork notes on boatmen’s songs":"Notes from a Delta field visit, including performance context and boatmen’s descriptions of the river.","Scanned manuscript, wedding songs":"A sample OCR preview of wedding-song verses collected in Nadia.","Translation notes on Gambhira verses":"Working translation notes for Gambhira verses from Malda."};$("#docTitle").textContent=d.doc;$("#docBody").textContent=docs[d.doc];openDialog("docDlg")}
+ else if(d.closeDialog)closeDialog(d.closeDialog)
  else if(d.soon)toast(d.soon);
  else if("compare" in d){if(cmp.length<2)toast("Pick at least two songs to compare.")}
 });
@@ -52,12 +54,13 @@ $("#go").onclick=()=>{
  const R=[["Category","cat"],["Region","reg"],["Language","lang"],["Themes","th"],["Performance context","ctx"],["Instruments","ins"]];
  const P=cmp.map(i=>S.find(s=>s.id==i));
  $("#tbl").innerHTML="<tr><th></th>"+P.map(p=>`<th>${p.t}</th>`).join("")+"</tr>"+R.map(r=>`<tr><th>${r[0]}</th>${P.map(p=>`<td>${p[r[1]]}</td>`).join("")}</tr>`).join("");
- $("#dlg").showModal()};
-$("#cls").onclick=()=>$("#dlg").close();
-$("#signin").onclick=()=>$("#signinDlg").showModal();
-$("#signinForm").onsubmit=e=>{e.preventDefault();const email=new FormData(e.target).get("email");localStorage.setItem("lokokathaUser",email);$("#signinDlg").close();$("#signin").textContent="Signed in";toast("Signed in for this browser session.")};
-$("#contributeBtn").onclick=()=>$("#contributeDlg").showModal();
-$("#contributeForm").onsubmit=e=>{e.preventDefault();const title=new FormData(e.target).get("title");$("#contributeDlg").close();e.target.reset();toast(`“${title}” was added to your local submissions.`)};
+ openDialog("dlg")};
+$("#cls").onclick=()=>closeDialog("dlg");
+$("#signin").onclick=()=>openDialog("signinDlg");
+$("#signinForm").onsubmit=e=>{e.preventDefault();const email=new FormData(e.target).get("email");localStorage.setItem("lokokathaUser",email);closeDialog("signinDlg");$("#signin").textContent="Signed in";toast("Signed in for this browser session.")};
+const signedInUser=localStorage.getItem("lokokathaUser");if(signedInUser)$("#signin").textContent="Signed in";
+$("#contributeBtn").onclick=()=>openDialog("contributeDlg");
+$("#contributeForm").onsubmit=e=>{e.preventDefault();const title=new FormData(e.target).get("title");closeDialog("contributeDlg");e.target.reset();toast(`“${title}” was added to your local submissions.`)};
 const RC={"Delta":"#4f8a8b","North Bengal":"#7a8f3a","Nadia–Kushtia":"#e0a100","Malda":"#b5381f","Purulia":"#8a5a2b"};
 $("#regs").innerHTML=Object.keys(RC).map(r=>`<button class="reg" style="--c:${RC[r]}" data-reg="${r}"><i></i><b>${r}</b><span>${S.filter(s=>s.reg==r).length} sample songs</span></button>`).join("");
 const links=$$("nav a");
