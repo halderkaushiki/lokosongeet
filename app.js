@@ -46,6 +46,7 @@ document.addEventListener("click",e=>{
  else if(d.soon)toast(d.soon);
  else if("compare" in d){if(cmp.length<2)toast("Pick at least two songs to compare.")}
 });
+$$("[data-provider]").forEach(b=>b.onclick=()=>toast(`${b.dataset.provider} OAuth is ready for backend configuration.`));
 $("#sform").onsubmit=e=>{e.preventDefault();qs=$("#q").value;render();$("#archive").scrollIntoView()};
 $("#q").oninput=e=>{qs=e.target.value;render()};
 $("#sug").innerHTML=S.map(s=>`<option value="${s.t}">`).join("");
